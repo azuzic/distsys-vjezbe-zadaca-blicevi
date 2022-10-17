@@ -7,9 +7,6 @@ tom indexu ako se nalazi unutar [5,10] ako ne upisuje -1.
 Ispis : [8,7,1], {1:2,2:1,3:2} -> {1: 8, 2: 7, 3: -1}
 """
 
-from re import L
-
-
 def func(l, d):
     assert isinstance(l, list)
     assert isinstance(d, dict)
