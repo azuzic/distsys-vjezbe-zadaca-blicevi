@@ -1,8 +1,8 @@
 import asyncio
 
-async def myFunc_1(ld):
-    assert isinstance(ld, list)
-    return [ {"korisnik": value , "id" : ld.index(key)} for key,value in zip(ld,ld)]
+async def myFunc_1(l):
+    assert isinstance(l, list)
+    return [ {"korisnik": value , "id" : index} for index,value in enumerate(l)]
 
 async def myFunc_2():
     for n in range(1,10):
@@ -15,8 +15,9 @@ async def myFunc_3(ld):
     return [ (v["korisnik"],v["id"], len(v["korisnik"]) ) for v in ld]
 
 async def main():
-    korisnici = await myFunc_1(["Ivan", "Pero"])
-    await myFunc_2()
+    imena = ["Ivan", "Pero"]
+    korisnici = await myFunc_1(imena)
+    asyncio.create_task(myFunc_2())
     korisnici2 = await myFunc_3(korisnici)
     print(korisnici2)
 
