@@ -8,7 +8,7 @@ routes = web.RouteTableDef()
 print("M0 process activated!")
 
 
-@routes.get("/getGithubLinks")
+@routes.get("/GithubLinks")
 async def getGithubLinks(req):
     try:
         # Connect to the database
@@ -16,11 +16,11 @@ async def getGithubLinks(req):
         cursor = await conn.cursor()
 
         # If the database is empty, populate it with test data
-        if await isTableEmpty(conn, cursor):
+        if await isTableEmpty(cursor):
             await fillDatabase(conn, cursor)
-            data = await fetchGithubLinks(conn, cursor)
+            data = await fetchGithubLinks(cursor)
         else:
-            data = await fetchGithubLinks(conn, cursor)
+            data = await fetchGithubLinks(cursor)
 
         return web.json_response({"Status M0": "OK", "response": data}, status=200)
     except Exception as e:
@@ -54,7 +54,7 @@ async def fillDatabase(conn, cursor):
 async def fetchGithubLinks(cursor):
     try:
         # Execute a SELECT query ORDERED by random with 100 LIMIT
-        await cursor.execute('SELECT * FROM github_links ORDER BY random() LIMIT 5')
+        await cursor.execute('SELECT * FROM github_links ORDER BY random() LIMIT 100')
 
         # Extract column names and values to create a list of dictionaries
         column_names = [column[0] for column in cursor.description]
