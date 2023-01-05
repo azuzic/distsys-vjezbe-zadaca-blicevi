@@ -1,6 +1,5 @@
 import aiohttp
 import asyncio
-import json
 
 from aiohttp import web
 
@@ -22,24 +21,17 @@ async def getDictionary(req):
 
             data = []
             data.append(asyncio.create_task(
-                session.post("http://localhost:8002/UsernameQuerry_w", json=response_data)))
+                session.post("http://localhost:8002/UsernameW", json=response_data)))
             data.append(asyncio.create_task(
-                session.post("http://localhost:8003/UsernameQuerry_d", json=response_data)))
+                session.post("http://localhost:8003/UsernameD", json=response_data)))
 
             res = await asyncio.gather(*data)
-            response = await res[0].json()
-            response_data = response["response"]
+            response1 = await res[0].json()
+            response2 = await res[1].json()
 
-            return web.json_response({"Status M1": "OK", "response": response_data}, status=200)
+            return web.json_response({"Status M1": "OK", "response": (response1, response2)}, status=200)
     except Exception as e:
         return web.json_response({"Status M1": "ERROR", "response": str(e)}, status=500)
-
-
-async def send_to_wt(url, data):
-    async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False)) as session:
-        async with session.post(url, json=data) as resp:
-            wt_resp = await resp.text()
-    return wt_resp
 
 app = web.Application()
 
