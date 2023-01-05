@@ -10,9 +10,10 @@ print("M0 process activated!")
 
 @routes.get("/GithubLinks")
 async def getGithubLinks(req):
+    print("M0 process called!")
     try:
         # Connect to the database
-        conn = await aiosqlite.connect('projekti/Projekt_01/DB.db')
+        conn = await aiosqlite.connect('/app/DB.db')
         cursor = await conn.cursor()
 
         # If the database is empty, populate it with test data
@@ -22,6 +23,7 @@ async def getGithubLinks(req):
         else:
             data = await fetchGithubLinks(cursor)
 
+        print("M0 process finished!")
         return web.json_response({"Status M0": "OK", "response": data}, status=200)
     except Exception as e:
         return web.json_response({"Status M0": "ERROR", "response": str(e)}, status=500)
@@ -39,7 +41,7 @@ async def isTableEmpty(cursor):
 
 async def fillDatabase(conn, cursor):
     # Load json file
-    with open('c:/Users/alesa/Desktop/projekt/file-000000000040.json') as f:
+    with open('/app/data.json') as f:
         for line in f:
             l = json.loads(line)
             username = l["repo_name"].split('/')[0]

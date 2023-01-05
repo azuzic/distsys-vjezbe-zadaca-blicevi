@@ -1,0 +1,28 @@
+version: '3'
+services:
+  m0:
+    build: M0
+    command: ["python", "M0.py"]
+    ports:
+      - "8000:8000"
+  m1:
+    build: M1
+    command: ["python", "M1.py"]
+    ports:
+      - "8001:8001"
+  m4:
+    build: M4
+    command: ["python", "M4.py"]
+    ports:
+      - "8004:8004"
+  wt1:
+    build: WT1
+    command: ["python", "WT1.py"]
+    ports:
+      - "8002:8002"
+  wt2:
+    build: WT2
+    command: ["python", "WT2.py"]
+    ports:
+      - "8003:8003"
+      
